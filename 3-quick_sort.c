@@ -14,7 +14,7 @@ void quick_sort(int *array, size_t size)
 	if (array == NULL || size < 2)
 		return;
 
-	quicksort_recursive(array, 0, size - 1);
+	quicksort_recursive(array, 0, size - 1, size);
 }
 
 /**
@@ -23,18 +23,19 @@ void quick_sort(int *array, size_t size)
  * @array: Pointer to the first element of the array
  * @low: Index of the low partition
  * @high: Index of the high partition
+ * @size: Number of elements in the array
  *
  * Return: Nothing
  */
-void quicksort_recursive(int *array, int low, int high)
+void quicksort_recursive(int *array, int low, int high, size_t size)
 {
 	int partition;
 
 	if (low < high)
 	{
-		partition = lomuto_partition(array, low, high);
-		quicksort_recursive(array, low, partition - 1);
-		quicksort_recursive(array, partition + 1, high);
+		partition = lomuto_partition(array, low, high, size);
+		quicksort_recursive(array, low, partition - 1, size);
+		quicksort_recursive(array, partition + 1, high, size);
 	}
 }
 
@@ -44,10 +45,11 @@ void quicksort_recursive(int *array, int low, int high)
  * @array: Pointer to the first element of the array
  * @low: Index of the low partition
  * @high: Index of the high partition
+ * @size: Number of elements in the array
  *
  * Return: Index of the pivot element
  */
-int lomuto_partition(int *array, int low, int high)
+int lomuto_partition(int *array, int low, int high, size_t size)
 {
 	int pivot, i, j, temp;
 
@@ -64,7 +66,7 @@ int lomuto_partition(int *array, int low, int high)
 				temp = array[i];
 				array[i] = array[j];
 				array[j] = temp;
-				print_array(array, high + 1);
+				print_array(array, size);
 			}
 		}
 	}
@@ -74,7 +76,7 @@ int lomuto_partition(int *array, int low, int high)
 		temp = array[i + 1];
 		array[i + 1] = array[high];
 		array[high] = temp;
-		print_array(array, high + 1);
+		print_array(array, size);
 	}
 
 	return (i + 1);
